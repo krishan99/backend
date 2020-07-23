@@ -1,0 +1,63 @@
+Command line queries testing queue_setup
+
+Sign in:
+curl \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --cookie-jar cookies.txt \
+  --data '{"email":"bob@starbucks"}' \
+  "http://localhost:8000/api/v1/test"
+
+ curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request GET \
+  --data '{}' \
+  "http://localhost:8000/api/v1/queue/retrieve_all"
+
+ curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request GET \
+  --data '{"qid":1}' \
+  "http://localhost:8000/api/v1/queue/retrieve"
+
+ curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request GET \
+  --data '{"qid":2}' \
+  "http://localhost:8000/api/v1/queue/retrieve"
+
+ curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"qid":1, "qname": "Evening brew", "description": "Hi!"}' \
+  "http://localhost:8000/api/v1/queue/update"
+
+curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"qname": "Quick line", "description": "Hurry up"}' \
+  "http://localhost:8000/api/v1/queue/make"
+
+curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"qid": 5}' \
+  "http://localhost:8000/api/v1/queue/delete"
+
+curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"qid": 3}' \
+  "http://localhost:8000/api/v1/queue/delete"
+
+curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"name": "Evening brew 2.0", "description": "Hi and bye!"}' \
+  "http://localhost:8000/api/v1/account/update"
+
+ curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request GET \
+  --data '{}' \
+  "http://localhost:8000/api/v1/account/retrieve"

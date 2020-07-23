@@ -1,0 +1,23 @@
+#!/bin/bash
+# run server
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+set -x
+
+# Comment out line below to keep old database
+rm -f logs
+# rm -rf var
+if [[ ! -f "var/server.sqlite3" ]]
+then
+  ./bin/dbsetup create
+fi
+
+export FLASK_DEBUG=True
+export FLASK_APP=server
+export SERVER_SETTINGS=config.py
+export GOOGLE_APPLICATION_CREDENTIALS="firebase.json"
+
+gunicorn --log-file=logs --worker-class eventlet -w 1 server:app
+# flask run --host 0.0.0.0 --port 8000

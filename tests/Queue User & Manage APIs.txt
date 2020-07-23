@@ -1,0 +1,42 @@
+curl \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"code": 3418}' \
+  "http://localhost:8000/api/v1/queue/user/getform"
+
+curl \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"qid": 1, "name":"Bill", "phone":"7345137860"}' \
+  "http://localhost:8000/api/v1/queue/user/postform"
+
+curl \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"qid": 1, "name":"Rob", "phone":"18005463412"}' \
+  "http://localhost:8000/api/v1/queue/user/postform"
+
+curl \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"qid": 1, "name":"Mary", "phone":"123456789"}' \
+  "http://localhost:8000/api/v1/queue/user/postform"
+
+curl \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --cookie-jar cookies.txt \
+  --data '{"email":"bob@starbucks"}' \
+  "http://localhost:8000/api/v1/test"
+
+curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request GET \
+  --data '{"qid":1}' \
+  "http://localhost:8000/api/v1/queue/manage/get"
+
+  curl -ib cookies.txt \
+  --header 'Content-Type: application/json' \
+  --request POST \
+  --data '{"qid":1, "id": 2}' \
+  "http://localhost:8000/api/v1/queue/manage/pop"

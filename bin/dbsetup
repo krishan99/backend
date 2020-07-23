@@ -1,0 +1,61 @@
+#!/bin/bash
+# database script
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+set -x
+
+# Sanity check command line options
+usage() {
+  echo "Usage: $0 (create|destroy|reset|dump)"
+}
+
+create() {
+  if [[ -f "var/server.sqlite3" ]]
+  then
+    echo "Error: database already exists"
+  else
+    mkdir -p var
+    sqlite3 var/server.sqlite3 < sql/schema.sql
+    sqlite3 var/server.sqlite3 < sql/data.sql
+  fi
+}
+
+destroy() {
+  rm -rf var/server.sqlite3 var/uploads
+}
+
+dump() {
+  sqlite3 -batch -line var/server.sqlite3 'SELECT * FROM businesses'
+  sqlite3 -batch -line var/server.sqlite3 'SELECT * FROM queues'
+}
+
+if [ $# -ne 1 ]; then
+  usage
+  exit 1
+fi
+
+# Parse argument.  $1 is the first argument
+case $1 in
+  "create")
+    create
+    ;;
+
+  "destroy")
+    destroy
+    ;;
+
+  "reset")
+    destroy
+    create
+    ;;
+
+  "dump")
+    dump
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac

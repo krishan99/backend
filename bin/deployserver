@@ -1,0 +1,9 @@
+Omers-MacBook-Pro:livesafe omersiddiqui$ vim ./bin/deployserver 
+
+#!/bin/bash
+# deploy server
+
+python3 -m venv env
+source env/bin/activate
+pip install -e .
+./bin/runsever

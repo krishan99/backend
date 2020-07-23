@@ -1,0 +1,186 @@
+This is documentation for using the queue APIs.
+
+General output types:
+Success: {
+    'message': s,
+    'status_code': 200
+}
+Forbidden action: {
+  "message": "Forbidden", 
+  "status_code": 403
+}
+Invalid input JSON: {
+    'message': "JSON Missing Fields",
+    'status_code': 405
+}
+Logically invalid request: context = {
+    'message': s,
+    'status_code': 403
+}
+
+************************************************************
+Test APIs:
+These are temporary APIs to allow for testing
+
+0. Signing in
+Route: /api/v1/test
+Method: ["POST"]
+Input: {"email":"bob@starbucks"}
+Output: {
+  "message": "signed in!", 
+  "status_code": 200
+}
+
+************************************************************
+Queue setup APIs:
+These APIs allow for setting up queues and their properties.
+
+1. Make a queue
+Route: /api/v1/queue/make
+Method: ["POST"]
+Input: {
+    "qname": "Quick line", 
+    "description": "Line used for express lane"
+}
+Output: {
+  "code": "327", 
+  "description": "Line used for express lane", 
+  "qid": 6, 
+  "qname": "Quick line"
+}
+
+2. Retrieve all queues
+Route: /api/v1/queue/retrieve_all
+Method: ["GET"]
+Input: {}
+Output: {
+  "queues": [
+    {
+      "code": "3418", 
+      "description": "Hi!", 
+      "qid": 1, 
+      "qname": "Evening brew"
+    }, 
+    {
+      "code": "327", 
+      "description": "Hurry up", 
+      "qid": 5, 
+      "qname": "Quick line"
+    }
+  ]
+}
+
+3. Retrieve a specific queue
+Route: /api/v1/queue/retrieve
+Method: ["GET"]
+Input: {"qid":1}
+Output: {
+  "code": "3418", 
+  "description": "Hi!", 
+  "qid": 1, 
+  "qname": "Evening brew"
+}
+
+4. Update a queue
+Route: /api/v1/queue/update
+Method: ["POST"]
+Input: {
+    "qid":1, 
+    "qname": "Evening brew", 
+    "description": "Hi!"
+}
+Output: {
+  "message": "Queue updated", 
+  "status_code": 200
+}
+
+5. Delete a queue
+Route: /api/v1/queue/delete
+Method: ["POST"]
+Input: {"qid":1}
+Output: {
+  "message": "Queue deleted", 
+  "status_code": 200
+}
+
+************************************************************
+Queue user APIs:
+These APIs allow for adding to the queue.
+
+6. Get what questions need to be answered for the queue/ if queue code valid
+    For now can be used to check if queue code valid
+    Will support custom questions in the future
+Route: /v1/queue/user/getform
+Method: ["POST"]
+Input: {"code": 3418}
+Output: {
+  "Name: ": "string", 
+  "Phone: ": "string", 
+  "business": "Starbucks", 
+  "code": 3418, 
+  "qid": 1
+}
+
+7. Add to queue
+Route: /api/v1/queue/user/postform
+Method: ["POST"]
+Input: {
+    "qid": 1, 
+    "name":"Bill", 
+    "phone":"7345137860"
+}
+Output: {
+  "message": "Added to queue!", 
+  "status_code": 200
+}
+
+************************************************************
+Queue manage APIs:
+These APIs allow for business to see and manage the queue
+For now, businesses can add to queue using the user APIs
+
+8. See queue
+Route: /api/v1/queue/manage/get
+Method: ["GET"]
+Input: {"qid":1}
+Output: {
+  "last_update": "2020-06-16 02:23:02", 
+  "line": [
+    {
+      "created": "2020-06-16 02:22:51", 
+      "id": 1, 
+      "name": "George Washington", 
+      "note": "", 
+      "phone": "1-800-100-7843"
+    }, 
+    {
+      "created": "2020-06-16 02:22:57", 
+      "id": 3, 
+      "name": "Tom Jerry", 
+      "note": "Pick up order", 
+      "phone": "124242"
+    }, 
+    {
+      "created": "2020-06-16 02:23:02", 
+      "id": 2, 
+      "name": "John Cena", 
+      "note": "Im the best", 
+      "phone": "8001234567"
+    }
+  ], 
+  "qid": 1
+}
+Note lower id means first in the queue and 
+output array will be sorted in increasing order
+
+9. Pop from queue
+Route: /api/v1/queue/manage/pop
+Method: ["POST"]
+Input: {
+    "qid":1, 
+    "id": 2
+}
+Output: {
+  "message": "Tom Jerry popped!", 
+  "status_code": 200
+}

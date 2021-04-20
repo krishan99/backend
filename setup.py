@@ -43,7 +43,7 @@ setup(
         'packaging==20.4',
         'phonenumbers==8.12.6',
         'pluggy==0.13.1',
-        'py==1.8.1',
+        'py==1.10.0',
         'pycodestyle==2.5.0',
         'pydocstyle==5.0.2',
         'PyJWT==1.7.1',

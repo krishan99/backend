@@ -62,7 +62,7 @@ python-engineio==3.13.1
 python-socketio==4.6.0
 pytz==2020.1
 requests==2.23.0
-rsa==4.6
+rsa==4.7
 selenium==3.141.0
 sh==1.12.14
 six==1.15.0

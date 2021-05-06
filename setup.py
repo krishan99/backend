@@ -22,7 +22,7 @@ setup(
         'eventlet==0.25.2',
         'firebase-admin==4.3.0',
         'Flask==1.1.1',
-        'Flask-Cors==3.0.8',
+        'Flask-Cors==3.0.9',
         'Flask-SocketIO==4.3.1',
         'Flask-Sockets==0.2.1',
         'gevent-websocket==0.10.1',
